@@ -1,0 +1,142 @@
+version: 2
+
+models:
+  - name: licences_by_week
+    description: This table has an entry per week per active licence
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - licence_id
+            - date_week
+    columns:
+      - name: licence_id
+      - name: user_id
+      - name: weekly_revenue
+      - name: date_week
+    
+  - name: trials_by_day
+    description: This table has an entry per day per active trial
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - trial_id
+            - date_day
+    columns:
+      - name: trial_id
+      - name: user_id
+      - name: subject_id
+      - name: date_day
+      
+  - name: user_revenue_by_week
+    description: This table has an entry per week per user with its revenue
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - user_id
+            - date_week
+    columns:
+      - name: date_week
+      - name: user_id
+      - name: wrr
+      - name: is_active
+      - name: first_active_week
+      - name: last_active_week
+      - name: is_first_week
+      - name: is_last_week
+
+  - name: user_revenue_changes
+    description: |
+      This table has an entry per week per user with its revenue and events associated.
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - user_id
+            - date_week
+    columns:
+      - name: date_week
+      - name: user_id
+      - name: wrr
+      - name: wrr_change
+      - name: is_active
+      - name: change_category
+    
+
+  - name: users
+    description: This table contains information about users
+    columns:
+      - name: user_id
+        tests:
+          - unique
+          - not_null
+        meta:
+          metrics:
+            total_users:
+              type: count
+            total_customers:
+              type: count
+              filters:
+                - is_active_customer: true
+      - name: school_id
+      - name: name
+      - name: postcode
+      - name: introduction_source
+      - name: school_year
+      - name: signed_up_at
+      - name: last_logged_in_at
+      - name: licences
+      - name: first_licence_started_at
+      - name: last_licence_started_at
+      - name: trial_started_at
+      - name: is_active_trial
+      - name: is_active_customer
+
+  - name: schools
+    description: This table contains information about schools
+    columns:
+      - name: school_id
+        tests:
+          - unique
+          - not_null
+        meta:
+          metrics:
+            total_schools:
+              type: count
+      - name: school_name
+      - name: school_postcode
+      - name: number_of_pupils
+      - name: licences
+    meta:
+      joins:
+        - join: users
+          sql_on: ${users.school_id} = ${schools.school_id}
+    
+  - name: subjects
+    columns:
+      - name: subject_id
+      - name: subject_name
+  
+  - name: trials
+    columns:
+      - name: trial_id
+      - name: user_id
+      - name: subject_id
+      - name: trial_started_at
+      - name: trial_expired_at
+    meta:
+      joins:
+        - join: users
+          sql_on: ${users.user_id} = ${trials.trial_id}
+      joins:
+        - join: subjects
+          sql_on: ${subjects.subject_id} = ${trials.subject_id}
+
+  - name: licences
+    columns:
+      - name: licence_id
+      - name: user_id
+      - name: subject_id
+      - name: licence_type
+      - name: licence_tier
+      - name: licence_started_at
+      - name: licence_expires_at
+  

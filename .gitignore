@@ -1,0 +1,51 @@
+# dbt artifacts in any subdirectory
+**/dbt_modules/
+**/target/
+**/logs/
+**/manifest.json
+**/run_results.json
+**/.dbt/
+**/.user.yml
+# Virtual environment in any subdirectory
+**/venv/
+**/ENV/
+**/env/
+**/dbt_packages
+
+# System files
+.DS_Store
+Thumbs.db
+
+# User files
+*.log
+*.dat
+*.out
+*.pid
+*.swp
+*.swo
+*.zip
+*.sqlitedb
+*.sqlite3
+*.tar.gz
+*.tgz
+*.tmp
+*.un~
+*.bak
+*.aux
+*.dvi
+*.fmt
+*.glo
+*.idx
+*.ilg
+*.ind
+*.lof
+*.lot
+*.out
+*.toc
+*.bbl
+*.blg
+*.brf
+*.pyc
+*.pyo
+*.rej
+~$*

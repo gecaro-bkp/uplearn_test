@@ -1,0 +1,22 @@
+uplearn_test:
+  target: dev
+  outputs:
+    local:
+      type: postgres
+      host: localhost
+      user: admin
+      password: admin
+      port: 15432
+      dbname: postgres
+      schema: public
+      threads: 1
+
+    dev:
+      type: postgres
+      host: postgres
+      user: admin
+      password: admin
+      port: 5432
+      database: postgres
+      schema: public
+      threads: 1

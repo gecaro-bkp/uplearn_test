@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: stg_licences
+    columns:
+      - name: licence_id
+      - name: user_id
+      - name: subject_id
+      - name: licence_type
+      - name: licence_tier
+      - name: licence_started_at
+      - name: licence_expires_at
+  - name: stg_schools
+    columns:
+      - name: school_id
+      - name: school_name
+      - name: school_postcode
+      - name: number_of_pupils
+  - name: stg_subjects
+    columns:
+      - name: subject_id
+      - name: subject_name
+  - name: stg_transactions
+    columns:
+      - name: transaction_id
+      - name: licence_id
+      - name: type
+      - name: amount
+      - name: transaction_occured_at
+  - name: stg_trials
+    columns:
+      - name: trial_id
+      - name: user_id
+      - name: subject_id
+      - name: trial_started_at
+      - name: trial_expired_at
+  - name: stg_users
+    columns:
+      - name: user_id
+      - name: school_id
+      - name: name
+      - name: postcode
+      - name: introduction_source
+      - name: school_year
+      - name: signed_up_at
+      - name: last_logged_in_at
+
+

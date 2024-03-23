@@ -1,0 +1,51 @@
+Table schools {
+  School_id int [pk]
+  School_name varchar
+  School_postcode varchar
+  Number_of_pupils int
+}
+
+Table trials {
+  Trial_id int [pk]
+  User_id int [ref: > users.User_id]
+  Subject_id int [ref: > subjects.Subject_id]
+  Trial_started_at datetime
+  Trial_expired_at datetime
+}
+
+Table transactions {
+  Transaction_id int [pk]
+  Licence_id int [ref: > licenses.Licence_id]
+  Type varchar
+  Amount decimal
+  Transaction_occured_at datetime
+}
+
+Table subjects {
+  Subject_id int [pk]
+  Subject_name varchar
+}
+
+Table licenses {
+  Licence_id int [pk]
+  User_id int [ref: > users.User_id]
+  Subject_id int [ref: > subjects.Subject_id]
+  Licence_type varchar
+  Licence_tier varchar
+  Licence_started_at datetime
+  Licence_expires_at datetime
+}
+
+Table users {
+  User_id int [pk]
+  School_id int [ref: > schools.School_id]
+  Name varchar
+  Postcode varchar
+  Introduction_source varchar
+  School_year int
+  Signed_up_at datetime
+  Last_logged_in_at datetime
+}
+
+// To get an interactive diagram of this model, you can paste the content
+// of this file to https://dbdiagram.io/d

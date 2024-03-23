@@ -1,0 +1,11 @@
+Licence_id,User_id,Subject_id,Licence_type,Licence_tier,Licence_started_at,Licence_expires_at
+1,1,1,Monthly,Standard,2024-01-10 0:00:00,2024-06-09 23:59:59
+2,2,2,Weekly,Premium,2024-01-15 0:00:00,2024-12-21 23:59:59
+3,3,3,Monthly,Standard,2024-02-01 0:00:00,2024-02-28 23:59:59
+4,1,2,Monthly,Standard,2024-02-05 0:00:00,2024-03-04 23:59:59
+5,5,2,Weekly,Standard,2024-02-20 0:00:00,2024-04-26 23:59:59
+6,6,3,Monthly,Standard,2024-03-01 0:00:00,2024-05-31 23:59:59
+7,8,1,Monthly,Standard,2024-03-07 0:00:00,2024-08-09 23:59:59
+8,8,2,Weekly,Standard,2024-03-15 0:00:00,2024-08-21 23:59:59
+9,9,3,Monthly,Premium,2024-03-17 0:00:00,2024-09-19 23:59:59
+10,10,1,Monthly,Standard,2024-03-25 0:00:00,2024-09-24 23:59:59

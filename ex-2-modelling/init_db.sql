@@ -1,0 +1,2 @@
+CREATE DATABASE lightdash;
+CREATE DATABASE dbt;

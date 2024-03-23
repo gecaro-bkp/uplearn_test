@@ -1,0 +1,85 @@
+version: "3.9"
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:15.2-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "15432:5432"
+    networks:
+      - postgres-network
+    volumes:
+      # Pass volume named mysql-data to mysql container
+      - "postgresql-data:/var/lib/postgresql/data"
+      - "./init_db.sql:/docker-entrypoint-initdb.d/create_database.sql"
+
+  dbt:
+    container_name: dbt
+    build: .
+    image: dbt-uplearn
+    volumes:
+      - ./:/usr/src/dbt
+    depends_on:
+      - postgres
+    networks:
+      - postgres-network
+
+  dbadmin:
+    depends_on:
+      - postgres
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "16543:80"
+    networks:
+      - postgres-network
+
+  lightdash:
+    image: lightdash/lightdash:latest
+    depends_on:
+      - postgres
+    environment:
+      - PGHOST=${PGHOST:-postgres}
+      - PGPORT=${PGPORT:-5432}
+      - PGUSER=${PGUSER:-admin}
+      - PGPASSWORD=${PGPASSWORD:-admin}
+      - PGDATABASE=${PGDATABASE:-lightdash}
+      - SECURE_COOKIES=${SECURE_COOKIES:-false}
+      - TRUST_PROXY=${TRUST_PROXY:-false}
+      - LIGHTDASH_SECRET=${LIGHTDASH_SECRET:-not_very_secret}
+      - PORT=${PORT:-8080}
+      - ALLOW_MULTIPLE_ORGS=${ALLOW_MULTIPLE_ORGS:-false}
+      - LIGHTDASH_QUERY_MAX_LIMIT=${LIGHTDASH_QUERY_MAX_LIMIT:-500}
+      - LIGHTDASH_MAX_PAYLOAD=${LIGHTDASH_MAX_PAYLOAD:-5mb}
+      - HEADLESS_BROWSER_HOST=headless-browser
+      - HEADLESS_BROWSER_PORT=3000
+      - SCHEDULER_ENABLED=true
+      - GROUPS_ENABLED=${GROUPS_ENABLED:-false}
+    volumes:
+      - .:/usr/app/dbt
+    ports:
+      - ${PORT:-8080}:${PORT:-8080}
+    networks:
+      - postgres-network
+
+  headless-browser:
+    image: browserless/chrome
+    restart: always
+    ports:
+      - "3001:3000"
+
+
+volumes:
+  postgresql-data:
+    driver: local
+
+networks:
+  postgres-network:
+    driver: bridge
