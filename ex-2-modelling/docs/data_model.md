@@ -34,7 +34,7 @@ With this model in mind, I think it should be fairly easy to answer these kinds 
 #### How many Trials are active at any given time?
 > For that we can use the trials_by_day table grouping by the date.
 
-As an example, here's a simple chart on active paying sellers vs active users over time:
+As an example, here's a simple chart on active paying sellers vs weekly revenue over time:
 
 ![](../images/revenue_vs_au.png)
 
